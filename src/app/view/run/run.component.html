@@ -1,0 +1,61 @@
+<div>
+  <div>
+    Text reader
+
+    <select [(ngModel)]="voice" (ngModelChange)="onVoiceChange($event)">
+      <option *ngFor="let voiceOption of voices" [ngValue]="voiceOption">
+        {{voiceOption.name}}
+      </option>
+    </select>
+  </div>
+
+  <ng-container *ngIf="reader.segments.length > 0">
+    <div>
+      Segment: {{reader.segments[reader.segmentNo].name}}
+    </div>
+  
+    <div>
+      Text: {{reader.segments[reader.segmentNo].steps[reader.stepNo].text}}
+    </div>
+
+    <div>
+      Comment: {{reader.segments[reader.segmentNo].steps[reader.stepNo].note}}
+    </div>
+  </ng-container>
+  
+</div>
+
+<div style="height: 100px;"></div>
+
+<div>
+  Data:
+
+  <button *ngIf="unsavedChanges" (click)="saveSegmentText()">Apply changes</button>
+
+  <div>
+    <textarea style="width: 100%; min-height: 400px" [(ngModel)]="segmentText" (ngModelChange)="onSegmentTextChange()"></textarea>
+  </div>
+</div>
+
+<div style="height: 100px;"></div>
+
+<div>
+  <div>Speech recognition:</div>
+  
+  <div *ngFor="let result of results">
+    ({{result.confidence * 100 | number:'1.0-0'}}%) - {{result.transcript}}
+  </div>
+</div>
+
+<div>
+  Available commands:
+  
+  <div>next one (slow)</div>
+  <div>previous one (slow)</div>
+  <div>go back one / previous one (slow)</div>
+  <div>next segment</div>
+  <div>previous segment</div>
+  <div>restart segment</div>
+  <div>restart from the beginning</div>
+  <div>read the note(s)</div>
+</div>
